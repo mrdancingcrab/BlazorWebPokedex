@@ -7,33 +7,35 @@
 
 
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Tobydex</PageTitle>
  
 
 
 <div class="container mt-2 d-flex flex-column">
+    <img  src="/img/tobydex.png" alt="titlePng" style="width:400px; margin: 0 auto 20px auto" />
+
     <div class="pokemon-row d-flex flex-wrap gap-md-5 justify-content-center">
         @foreach (var pokemon in pokemonList)
         {
             <div class="pokemon-card d-flex flex-column align-items-center justify-content-between
                         p-3 bg-white text-center"
-                 style="width: 200px; height: 250px; border: none; border-radius: 10px; box-shadow: 0 10px rgba(0,0,0,0.15)">
+                 style="width: 200px; height: 250px; border: none; border-radius: 10px; box-shadow: 0 10px 10px 5px rgba(0,0,0,0.15)">
 
                 <img class="w-75 h-auto" src="@pokemon.sprites.front_default" alt="Pokemon Sprite">
                 <h4 class="pokemon-name text-capitalize text-decoration-none text-black mb-2">
                     @pokemon.name
                 </h4>
 
-                <div class="type-row d-flex w-100 px-3 justify-content-around">
+                <div class="type-row d-flex w-100 px-3 justify-content-around text-uppercase fw-bold text-white">
                     @foreach (var type in pokemon.types)
                     {
-                        <span class="fw-medium text-uppercase">@type.type.name</span>
+                        <span class="type-badge" style="border:none; border-radius: 8px; padding: 5px 10px; font-size: 13px; margin-right: 3px; background-color: @TypeColor.GetTypeColor(type.type.name)">@type.type.name</span>
                     }
                 </div>
             </div>
         }
     </div>
-</div>
+</div> 
 
     @code {
     List<Pokemon> pokemonList = new List<Pokemon>();

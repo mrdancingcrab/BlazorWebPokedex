@@ -1,0 +1,81 @@
+﻿@page "/pokemon"
+@using Models
+@using Utilities
+@inject PokeClient client
+
+@if (pokemon?.sprites?.front_default != null)
+{
+    <div class="container">
+        <div class="card">
+            if (@pokemon.types.Count > 0)
+            {
+            <div class="card-top" style="background-color: @TypeColor.GetTypeColor(pokemon.types[0].type.name)">
+                <img src="@pokemon.sprites.front_default" alt="pokemon sprite" class="card-img-top" />
+            </div>
+            }   
+        </div>
+        <div class="inner-container">
+            <div class="stats-head">
+                <div class="icon-container">
+                    <img src="" alt=""/>
+                    <h1 class="pokemon-name card-title">@pokemon.name</h1>
+                </div>
+                <div class="pokemon-info">
+                    <h5>Height: @pokemon.height m</h5>
+                    <div>
+                        @foreach (var type in pokemon.types)
+                        {
+                            <span class="type-badge"
+                                  style="background-color: @TypeColor.GetTypeColor(type.type.name);
+                                         padding: 5px;
+                                         border-radius: 5px;
+                                         color: white;">
+                                @type.type.name
+                            </span>
+                        }
+                    </div>
+                    <h5>Weight: @pokemon.weight kg</h5>
+                </div>
+            </div>
+
+            <div class="stats-head">
+                <div class="icon-container">
+                    <img src="/img/pokeInsignia.png" alt="insignia" />
+                    <h2>Stats</h2>
+                </div>
+                @foreach (var stat in pokemon.stats)
+                {
+                    <div class="stat-bar">
+                        <h5 class="stat">@stat.stat.name: @stat.base_stat</h5>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped"
+                                 role="progressbar"
+                                 style="width: @stat.base_stat%;
+                        background-color: @(TypeColor.GetStatColor(stat.stat.name));
+                        height: 100%;"
+                                 aria-valuenow="@stat.base_stat%"
+                                 aria-valuemin="0"
+                                 aria-valuemax="200">
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>Loading Pokémon...</p>
+}
+
+@code {
+    Pokemon pokemon = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        pokemon = await client.GetPokemon("1");
+        StateHasChanged();
+    }
+}
