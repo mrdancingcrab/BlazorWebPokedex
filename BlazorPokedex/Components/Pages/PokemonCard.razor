@@ -5,31 +5,29 @@
 
 @if (pokemon?.sprites?.front_default != null)
 {
-    <div class="container">
+    <div class="container" style="margin: 30px auto; width: 28%;">
         <div class="card">
-            if (@pokemon.types.Count > 0)
+            @if (@pokemon.types.Count > 0)
             {
-            <div class="card-top" style="background-color: @TypeColor.GetTypeColor(pokemon.types[0].type.name)">
-                <img src="@pokemon.sprites.front_default" alt="pokemon sprite" class="card-img-top" />
+            <div class="card-top" style="background-color: @TypeColor.GetTypeColor(pokemon.types[0].type.name); display: flex;
+                                  justify-content: space-around; align-items: center; margin-bottom: 10px;">
+                <img src="@pokemon.sprites.front_default" alt="pokemon sprite" class="card-img-top" style="width: 200px;" />
             </div>
             }   
-        </div>
-        <div class="inner-container">
+        <div class="inner-container" style="margin: 0 auto; width: 100%; text-align: center; padding: 20px; padding-top:0px;">
             <div class="stats-head">
-                <div class="icon-container">
-                    <img src="" alt=""/>
-                    <h1 class="pokemon-name card-title">@pokemon.name</h1>
+                <div class="icon-container" style="display: flex; align-items: center; justify-content: center;">
+                    <img src="" alt="" class="poke-icon" style="width:30px; height: 30px; margin-right: 10px;"/>
+                    <h1 class="pokemon-name card-title text-uppercase"">@pokemon.name</h1>
                 </div>
                 <div class="pokemon-info">
                     <h5>Height: @pokemon.height m</h5>
                     <div>
                         @foreach (var type in pokemon.types)
                         {
-                            <span class="type-badge"
+                            <span class="type-badge text-uppercase"
                                   style="background-color: @TypeColor.GetTypeColor(type.type.name);
-                                         padding: 5px;
-                                         border-radius: 5px;
-                                         color: white;">
+                                         padding: 5px 10px; border-radius: 8px; font-size: 13px; color: #fff; margin-right: 3px                                     color: white;">
                                 @type.type.name
                             </span>
                         }
@@ -45,8 +43,8 @@
                 </div>
                 @foreach (var stat in pokemon.stats)
                 {
-                    <div class="stat-bar">
-                        <h5 class="stat">@stat.stat.name: @stat.base_stat</h5>
+                    <div class="stat-bar" style="display: flex; flex-direction: column; text-align: left; margin-bottom: 5px;">
+                        <h5 class="stat text-uppercase">@stat.stat.name: @stat.base_stat</h5>
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped"
                                  role="progressbar"
@@ -61,6 +59,7 @@
                     </div>
                 }
 
+                </div>
             </div>
         </div>
     </div>
