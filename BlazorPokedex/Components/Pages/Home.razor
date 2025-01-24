@@ -2,26 +2,39 @@
 @using Models
 @using Utilities
 @inject PokeClient client
+@using Layout
+@layout MainLayout 
+
+
 
 <PageTitle>Home</PageTitle>
+ 
 
-<div class="container">
-      <div class="pokemon-row">
-          @foreach (var pokemon in pokemonList)
-    {
-        <div class="pokemon-card">
-            <img src="@pokemon.sprites.front_default" alt="Pokemon Sprite"> 
-            <h4 class="pokemon-name">@pokemon.name</h4>
-            <div class="type-row">
+
+<div class="container mt-2 d-flex flex-column">
+    <div class="pokemon-row d-flex flex-wrap gap-md-5 justify-content-center">
+        @foreach (var pokemon in pokemonList)
+        {
+            <div class="pokemon-card d-flex flex-column align-items-center justify-content-between
+                        p-3 bg-white text-center"
+                 style="width: 200px; height: 250px; border: none; border-radius: 10px; box-shadow: 0 10px rgba(0,0,0,0.15)">
+
+                <img class="w-75 h-auto" src="@pokemon.sprites.front_default" alt="Pokemon Sprite">
+                <h4 class="pokemon-name text-capitalize text-decoration-none text-black mb-2">
+                    @pokemon.name
+                </h4>
+
+                <div class="type-row d-flex w-100 px-3 justify-content-around">
                     @foreach (var type in pokemon.types)
                     {
-                        <span>@type.type.name</span>
+                        <span class="fw-medium text-uppercase">@type.type.name</span>
                     }
                 </div>
-        </div>
-    }
+            </div>
+        }
     </div>
 </div>
+
     @code {
     List<Pokemon> pokemonList = new List<Pokemon>();
 
