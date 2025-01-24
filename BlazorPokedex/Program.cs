@@ -1,4 +1,5 @@
 using BlazorPokedex.Components;
+using BlazorPokedex.Utilities;
 
 namespace BlazorPokedex
 {
@@ -11,6 +12,7 @@ namespace BlazorPokedex
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+            builder.Services.AddHttpClient<PokeClient>();
 
             var app = builder.Build();
 
