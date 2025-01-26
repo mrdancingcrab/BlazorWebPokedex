@@ -1,68 +1,84 @@
-﻿@page "/pokemon"
+﻿@page "/pokemon/{PokemonId}"
 @using Models
 @using Utilities
 @inject PokeClient client
 
 @if (pokemon?.sprites?.front_default != null)
 {
-    <div class="container" style="margin: 30px auto; width: 28%;">
-        <div class="card">
+    <div class="container" style="margin: 30px auto; width: 28%; min-width: 500px;">
+        <div class="card" style="box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3); border-radius: 15px; width:auto;">
             @if (@pokemon.types.Count > 0)
             {
-            <div class="card-top" style="background-color: @TypeColor.GetTypeColor(pokemon.types[0].type.name); display: flex;
-                                  justify-content: space-around; align-items: center; margin-bottom: 10px;">
-                <img src="@pokemon.sprites.front_default" alt="pokemon sprite" class="card-img-top" style="width: 200px;" />
-            </div>
-            }   
-        <div class="inner-container" style="margin: 0 auto; width: 100%; text-align: center; padding: 20px; padding-top:0px;">
-            <div class="stats-head">
-                <div class="icon-container" style="display: flex; align-items: center; justify-content: center;">
-                    <img src="" alt="" class="poke-icon" style="width:30px; height: 30px; margin-right: 10px;"/>
-                    <h1 class="pokemon-name card-title text-uppercase"">@pokemon.name</h1>
+                <div class="card-top" style="background-color: @TypeColor.GetTypeColor(pokemon.types[0].type.name);
+                                        display: flex; justify-content: space-around; align-items: center;
+                                        margin-bottom: 10px;">
+                    <img src="@pokemon.sprites.front_default" alt="pokemon sprite" class="card-img-top" style="width: 200px;" />
                 </div>
-                <div class="pokemon-info">
-                    <h5>Height: @pokemon.height m</h5>
-                    <div>
-                        @foreach (var type in pokemon.types)
-                        {
-                            <span class="type-badge text-uppercase"
-                                  style="background-color: @TypeColor.GetTypeColor(type.type.name);
-                                         padding: 5px 10px; border-radius: 8px; font-size: 13px; color: #fff; margin-right: 3px                                     color: white;">
-                                @type.type.name
-                            </span>
-                        }
+            }
+            <div class="inner-container" style="margin: 0 auto; width: 100%; text-align: center; padding: 20px; padding-top:0px;">
+                <div class="stats-head">
+                    <div class="icon-container" style="display: flex; align-items: center; justify-content: center;">
+                        <h1 class="pokemon-name card-title text-uppercase">@pokemon.name</h1>
                     </div>
-                    <h5>Weight: @pokemon.weight kg</h5>
-                </div>
-            </div>
 
-            <div class="stats-head">
-                <div class="icon-container">
-                    <img src="/img/pokeInsignia.png" alt="insignia" />
-                    <h2>Stats</h2>
+                    <!-- Fixed Layout for Height, Type Badges, and Weight -->
+                    <div class="pokemon-info d-flex align-items-center"
+                         style="display: flex; justify-content: space-between; align-items: center;
+                            flex-wrap: nowrap; width: 100%; min-width: 280px;">
+
+                        <!-- Height -->
+                        <h5 style="margin: 0; flex-shrink: 0;">Height: @pokemon.height m</h5>
+
+                        <!-- Types (Center Aligned, Flexible) -->
+                        <div class="d-flex justify-content-center"
+                             style="display: flex; flex-wrap: nowrap; gap: 5px; flex-grow: 1;
+                                min-width: 100px; text-align: center;">
+                            @foreach (var type in pokemon.types)
+                            {
+                                <span class="type-badge text-uppercase"
+                                      style="background-color: @TypeColor.GetTypeColor(type.type.name);
+                                       padding: 6px 12px; border-radius: 8px; font-size: 13px; color: white;
+                                       min-width: 50px; text-align: center; white-space: nowrap;">
+                                    @type.type.name
+                                </span>
+                            }
+                        </div>
+
+                        <!-- Weight -->
+                        <h5 style="margin: 0; flex-shrink: 0;">Weight: @pokemon.weight kg</h5>
+                    </div>
                 </div>
-                @foreach (var stat in pokemon.stats)
-                {
-                    <div class="stat-bar" style="display: flex; flex-direction: column; text-align: left; margin-bottom: 5px;">
-                        <h5 class="stat text-uppercase">@stat.stat.name: @stat.base_stat</h5>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped"
-                                 role="progressbar"
-                                 style="width: @stat.base_stat%;
-                        background-color: @(TypeColor.GetStatColor(stat.stat.name));
-                        height: 100%;"
-                                 aria-valuenow="@stat.base_stat%"
-                                 aria-valuemin="0"
-                                 aria-valuemax="200">
+
+                <div class="stats-head">
+                    <div class="icon-container d-flex align-items-center justify-content-center">
+                        <img class="insigniaImg" src="/img/pokeInsignia.png" alt="insignia" style="width:30px; height: 30px; justify-content:center;" />
+                        <h2>Stats</h2>
+                    </div>
+                    @foreach (var stat in pokemon.stats)
+                    {
+                        <div class="stat-bar" style="display: flex; flex-direction: column; text-align: left; margin-bottom: 5px;">
+                            <h5 class="stat text-uppercase">@stat.stat.name: @stat.base_stat</h5>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped"
+                                     role="progressbar"
+                                     style="width: @stat.base_stat%;
+                         background-color: @(TypeColor.GetStatColor(stat.stat.name));
+                         height: 100%;"
+                                     aria-valuenow="@stat.base_stat%"
+                                     aria-valuemin="0"
+                                     aria-valuemax="200">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                }
-
+                    }
                 </div>
             </div>
         </div>
     </div>
+
+
+
+
 }
 else
 {
@@ -70,11 +86,16 @@ else
 }
 
 @code {
+
+    [Parameter]
+
+    public string PokemonId { get; set; }
+
     Pokemon pokemon = new();
 
     protected override async Task OnInitializedAsync()
     {
-        pokemon = await client.GetPokemon("1");
+        pokemon = await client.GetPokemon(PokemonId);
         StateHasChanged();
     }
 }

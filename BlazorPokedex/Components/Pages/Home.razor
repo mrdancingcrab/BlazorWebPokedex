@@ -17,9 +17,9 @@
     <div class="pokemon-row d-flex flex-wrap gap-md-5 justify-content-center">
         @foreach (var pokemon in pokemonList)
         {
-            <div class="pokemon-card d-flex flex-column align-items-center justify-content-between
-                        p-3 bg-white text-center"
-                 style="width: 200px; height: 250px; border: none; border-radius: 10px; box-shadow: 0 10px 10px 5px rgba(0,0,0,0.15)">
+            <a href="/pokemon/@pokemon.id" style="text-decoration: none">
+            <div class="pokemon-card d-flex flex-column align-items-center justify-content-between p-3 bg-white text-center"
+                 style="width: 200px; height: 250px; border: none; border-radius: 10px; box-shadow: 0 10px 10px 5px rgba(0,0,0,0.15);">
 
                 <img class="w-75 h-auto" src="@pokemon.sprites.front_default" alt="Pokemon Sprite">
                 <h4 class="pokemon-name text-capitalize text-decoration-none text-black mb-2">
@@ -33,6 +33,7 @@
                     }
                 </div>
             </div>
+            </a>
         }
     </div>
 </div> 
@@ -42,7 +43,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        for (int i = 1; i <= 20; i++) 
+        for (int i = 1; i <= 151; i++) 
         {
             var pokemon = await client.GetPokemon(i.ToString());
             pokemonList.Add(pokemon);
